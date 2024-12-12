@@ -1,6 +1,7 @@
 import homeDepotPage from '../pageobjects/searchBar.js';
 import brandPage from '../pageobjects/brandFilter.js';
 import cartPage from '../pageobjects/cart.js';
+import homeDepotHomePage from '../pageobjects/homeIcon.js';
 
 describe('Home Depot search bar testing', () => {
 
@@ -21,5 +22,12 @@ describe('Cart testing', () => {
 
     it('should fully test the cart buttons', async () => {
         await cartPage.cartTest();
+    })
+})
+
+describe('Home button testing', () => {
+
+    it('should only have one click to the homepage', async () => {
+        await homeDepotHomePage.mainMenu();
     })
 })
