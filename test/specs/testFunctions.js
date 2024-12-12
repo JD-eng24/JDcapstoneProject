@@ -1,6 +1,6 @@
-import { browser } from '@wdio/globals';
 import homeDepotPage from '../pageobjects/searchBar.js';
-import homeDepotHomePage from '../pageobjects/homeIcon.js'
+import brandPage from '../pageobjects/brandFilter.js';
+import cartPage from '../pageobjects/cart.js';
 
 describe('Home Depot search bar testing', () => {
 
@@ -10,3 +10,16 @@ describe('Home Depot search bar testing', () => {
     });
 });
 
+describe('Brand filters testing', () => {
+    
+    it('should fully test the brand filters section', async () => {
+        await brandPage.viewFilters('g');
+    });
+});
+
+describe('Cart testing', () => {
+
+    it('should fully test the cart buttons', async () => {
+        await cartPage.cartTest();
+    })
+})

@@ -12,7 +12,6 @@ class homeDepotHomePage extends Base {
    }
     
  async defaultURL() {
-    console.log('Opening URL:', 'https://www.homedepot.com'); 
     await browser.url('https://www.homedepot.com');
     }
 };
