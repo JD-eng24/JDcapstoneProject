@@ -3,51 +3,55 @@ import Base from './returnLink.js';
 
 class cartPage extends Base {
     
-    get addTocart() {
+    get cart() {
         return $('//button[contains(text(), "Add to Cart")]');
     }
 
-    get saveAndcontinue() {
+    get shop() {
         return $('//button[contains(text(), "Save & Keep")]');
     }
 
     get cartIcon() {
         return $('//a[@data-testid="header-cart-icon"]');
-    }
+    }    
 
     get checkout() {
-        return $('//button[@data-automation-id="checkoutButton"]');
+        return $('div[class="sui-grid sui-pt-6 sui-pb-4"]');
     }
 
     get iFrame() {
         return $('//iframe[@class="thd-drawer_frame thd-drawer_frame__default-screen"]');
     }
-
-    async cartTest() {
     
-            await this.addTocart.waitForDisplayed({ timeout: 30000 });
-            await this.addTocart.click();
+    async cartTest() {
+            await this.cart.waitForDisplayed();
+            await this.cart.click();
             await browser.switchFrame(this.iFrame);
-
-            await this.saveAndcontinue.waitForDisplayed({ timeout: 10000 });
-            await this.saveAndcontinue.waitForEnabled();
-            await this.saveAndcontinue.click();
-
+            await this.shop.waitForDisplayed({ timeout: 10000 }); 
+            await this.shop.waitForEnabled();
+            await this.shop.click();
             await browser.switchToParentFrame();
-
-            if (cartPage) {
-                await this.cartIcon.waitForDisplayed({ timeout: 5000});
-                await this.cartIcon.waitForClickable({ timeout: 10000 });
-                await this.cartIcon.click();
-            if (cartPage) {
-                await this.checkout.click();
+    
+            await this.cartIcon.scrollIntoView();
+            const isDisplayed = await this.cartIcon.isDisplayed();
+            console.info(`Cart icon displayed: ${isDisplayed}`);
+        
+            const isClickable = await this.cartIcon.isClickable();
+            console.info(`Cart icon clickable: ${isClickable}`);
+        
+            if (!isClickable) {
+                console.info("Trying to force click the cart icon.");
+                await browser.execute((cartSelector) => {
+                    const cart = document.evaluate(cartSelector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    if (cart) cart.click();
+                }, '//p[contains(text(), "Cart")]');
             } else {
-                console.error('Checkout button was not clickable.');
+                await this.cartIcon.click();
             }
-         
-            console.error('An error occurred during the cart test:', error);
-        };
+            
+            await this.checkout.waitForDisplayed({ timeout: 5000 });
+            await this.checkout.click();
+        }
     }
-}
 
-export default new cartPage();
+        export default new cartPage();

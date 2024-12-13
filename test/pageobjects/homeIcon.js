@@ -1,14 +1,14 @@
 import { $ } from '@wdio/globals'; 
 import Base from './returnLink.js';
 
-class homeDepotHomePage extends Base {
+class homePage extends Base {
    
-     get homeDepoticon() {
-        return $('svg[aria-label="The Home Depot Logo"]')
-     }
+    get homeLogo() {
+        return $('//img[@class="thd-logo"]');
+    }
      
      async mainMenu() {
-       await this.homeDepoticon.click();
+       await this.homeLogo.click();
    }
     
  async defaultURL() {
@@ -16,4 +16,4 @@ class homeDepotHomePage extends Base {
     }
 };
 
-export default new homeDepotHomePage();
+export default new homePage();
