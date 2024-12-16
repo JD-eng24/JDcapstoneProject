@@ -27,7 +27,7 @@ class brandPage extends Base {
         await this.filtersButton.waitForDisplayed();
         await this.filtersButton.click();
 
-        await this.dropDown.waitForClickable();
+        await this.dropDown.waitForClickable({ timeout: 3000 });
         await this.dropDown.click();
 
 

@@ -4,11 +4,15 @@ import Base from './returnLink.js';
 class cartPage extends Base {
     
     get cart() {
-        return $('//button[contains(text(), "Add to Cart")]');
+        return $('//button[contains(normalize-space(), "Add to Cart")]');
     }
 
     get shop() {
-        return $('//button[contains(text(), "Save & Keep")]');
+        return $('//button[contains(normalize-space(), "Save & Keep")]');
+    }
+
+    getDynamicButton(buttonText) {
+        return $(`//button[contains(normalize-space(), "${buttonText}")]`);
     }
 
     get cartIcon() {
@@ -21,6 +25,20 @@ class cartPage extends Base {
 
     get iFrame() {
         return $('//iframe[@class="thd-drawer_frame thd-drawer_frame__default-screen"]');
+    }
+
+    async waitForElement(element, timeout = 10000) {
+        await element.waitForDisplayed({ timeout });
+        await element.waitForEnabled({ timeout });
+    }
+
+    async switchToFrame(frameElement) {
+        await frameElement.waitForExist();
+        await browser.switchToFrame(frameElement);
+    }
+
+    async switchToParentFrame() {
+        await browser.switchToParentFrame();
     }
     
     async cartTest() {
